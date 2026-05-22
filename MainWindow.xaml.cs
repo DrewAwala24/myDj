@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace MyPersonalDjGui
 {
     /// <summary>
@@ -39,12 +40,14 @@ namespace MyPersonalDjGui
 
             LoadSongs();
 
-           
+            // console log watcher removed - no UI log box
+
+            // update status and show a debug message to confirm loading
             try
             {
                 var count = myMenu.GetSongCount();
                 StatusText.Text = $"Songs loaded: {count}";
-                
+
                 if (count > 0)
                 {
                     SongListBox.SelectedIndex = 0;
@@ -144,6 +147,63 @@ namespace MyPersonalDjGui
         }
 
         // Console log watcher functionality removed - no UI log box
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            var total = myMenu.GetSongCount();
+            if (total == 0) return;
+            int idx = SongListBox.SelectedIndex - 1;
+            if (idx < 0) idx = total - 1;
+            SongListBox.SelectedIndex = idx;
+            PlayButton_Click(sender, new RoutedEventArgs());
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            var total = myMenu.GetSongCount();
+            if (total == 0) return;
+            int idx = SongListBox.SelectedIndex + 1;
+            if (idx >= total) idx = 0;
+            SongListBox.SelectedIndex = idx;
+            PlayButton_Click(sender, new RoutedEventArgs());
+        }
+
+        private void SongListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SongListBox.SelectedIndex < 0) return;
+            var item = myMenu.GetPlaylist(SongListBox.SelectedIndex);
+            if (item == null) return;
+            SongTitleText.Text = item.getSongTitle();
+            ArtistText.Text = System.IO.Path.GetFileName(item.getFilePath());
+        }
+
+        private void SeekBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            // placeholder — wire up when playback supports seeking
+        }
+
+        private void LoadFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                Title = "Select a folder — pick any file inside it",
+                Filter = "MP3 Files|*.mp3",
+                CheckFileExists = false
+            };
+            if (dialog.ShowDialog() == true)
+            {
+                var folder = System.IO.Path.GetDirectoryName(dialog.FileName);
+                try
+                {
+                    myMenu.LoadSongs(folder);
+                    LoadSongs();
+                    var count = myMenu.GetSongCount();
+                    SongCountLabel.Text = $"{count} songs";
+                    StatusText.Text = $"Loaded {count} songs from {folder}";
+                    if (count > 0) SongListBox.SelectedIndex = 0;
+                }
+                catch (Exception ex) { StatusText.Text = "Error: " + ex.Message; }
+            }
+        }
     }
 
 }

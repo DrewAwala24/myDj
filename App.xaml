@@ -1,9 +1,166 @@
 ﻿<Application x:Class="MyPersonalDjGui.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:MyPersonalDjGui"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+
+        <!-- ── Color palette ── -->
+        <Color x:Key="DeepColor">#0A0010</Color>
+        <Color x:Key="SurfaceColor">#110020</Color>
+        <Color x:Key="CardColor">#1A0030</Color>
+        <Color x:Key="PurpleColor">#9B5DE5</Color>
+        <Color x:Key="PurpleBrightColor">#C77DFF</Color>
+        <Color x:Key="AccentColor">#E040FB</Color>
+        <Color x:Key="MutedColor">#9080AA</Color>
+
+        <!-- ── Brushes ── -->
+        <SolidColorBrush x:Key="DeepBrush"        Color="{StaticResource DeepColor}"/>
+        <SolidColorBrush x:Key="SurfaceBrush"     Color="{StaticResource SurfaceColor}"/>
+        <SolidColorBrush x:Key="CardBrush"         Color="{StaticResource CardColor}"/>
+        <SolidColorBrush x:Key="PurpleBrush"       Color="{StaticResource PurpleColor}"/>
+        <SolidColorBrush x:Key="PurpleBrightBrush" Color="{StaticResource PurpleBrightColor}"/>
+        <SolidColorBrush x:Key="AccentBrush"       Color="{StaticResource AccentColor}"/>
+        <SolidColorBrush x:Key="MutedBrush"        Color="{StaticResource MutedColor}"/>
+        <SolidColorBrush x:Key="WhiteBrush"        Color="White"/>
+
+        <!-- ── ControlButtonStyle — small icon buttons (Shuffle, Prev, Next, Stop) ── -->
+        <Style x:Key="ControlButtonStyle" TargetType="Button">
+            <Setter Property="Background"       Value="Transparent"/>
+            <Setter Property="Foreground"       Value="{StaticResource MutedBrush}"/>
+            <Setter Property="BorderBrush"      Value="Transparent"/>
+            <Setter Property="BorderThickness"  Value="0"/>
+            <Setter Property="FontSize"         Value="16"/>
+            <Setter Property="Padding"          Value="10,6"/>
+            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="20"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#22C77DFF"/>
+                                <Setter Property="Foreground" Value="{StaticResource PurpleBrightBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#449B5DE5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ── PlayButtonStyle — big round play/pause button ── -->
+        <Style x:Key="PlayButtonStyle" TargetType="Button">
+            <Setter Property="Background"      Value="{StaticResource PurpleBrush}"/>
+            <Setter Property="Foreground"      Value="White"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Width"           Value="56"/>
+            <Setter Property="Height"          Value="56"/>
+            <Setter Property="FontSize"        Value="22"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                CornerRadius="28">
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background"
+                                        Value="{StaticResource PurpleBrightBrush}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#7744BB"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ── SongListItemStyle — each row in the playlist ListBox ── -->
+        <Style x:Key="SongListItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background"  Value="Transparent"/>
+            <Setter Property="Foreground"  Value="White"/>
+            <Setter Property="Padding"     Value="10,8"/>
+            <Setter Property="Cursor"      Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                Padding="{TemplateBinding Padding}">
+                            <ContentPresenter/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#159B5DE5"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#309B5DE5"/>
+                                <Setter Property="Foreground" Value="{StaticResource PurpleBrightBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ── SeekSliderStyle — used for both seek bar and volume slider ── -->
+        <Style x:Key="SeekSliderStyle" TargetType="Slider">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="Slider.DecreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Height="3"
+                                                        Background="{StaticResource PurpleBrush}"
+                                                        CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Command="Slider.IncreaseLarge">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Height="3"
+                                                        Background="#339B5DE5"
+                                                        CornerRadius="2"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.IncreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Ellipse Width="14" Height="14"
+                                                         Fill="{StaticResource PurpleBrightBrush}"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Application.Resources>
 </Application>
