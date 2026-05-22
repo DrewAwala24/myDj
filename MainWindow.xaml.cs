@@ -39,9 +39,7 @@ namespace MyPersonalDjGui
 
             LoadSongs();
 
-            // console log watcher removed - no UI log box
-
-            // update status and show a debug message to confirm loading
+           
             try
             {
                 var count = myMenu.GetSongCount();

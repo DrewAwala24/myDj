@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="#2D2D30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="644*"/>
+            <ColumnDefinition Width="157*"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -14,18 +18,18 @@
         </Grid.RowDefinitions>
 
         <ListBox x:Name="SongListBox" 
-             Margin="20"
+             Margin="20,20,20,20"
              Background="#3E3E42" 
              Foreground="White" 
              FontSize="14" 
              BorderThickness="0"
-             Grid.Row="1" MouseDoubleClick="SongListBox_MouseDoubleClick" />
+             Grid.Row="1" MouseDoubleClick="SongListBox_MouseDoubleClick" Grid.ColumnSpan="2" />
 
-        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="12" HorizontalAlignment="Left">
-            <Button x:Name="PlayButton" Width="80" Margin="4" Click="PlayButton_Click">Play</Button>
-            <Button x:Name="PauseButton" Width="80" Margin="4" Click="PauseButton_Click">Pause</Button>
-            <Button x:Name="StopButton" Width="80" Margin="4" Click="StopButton_Click">Stop</Button>
-            <Button x:Name="ShuffleButton" Width="80" Margin="4" Click="ShuffleButton_Click">Shuffle</Button>
+        <StackPanel Orientation="Horizontal" Grid.Row="0" Margin="218,12,0,12" HorizontalAlignment="Left">
+            <Button x:Name="PlayButton"  Width="80" Margin="4" Click="PlayButton_Click" FontFamily="Arial" FontSize="20">▶️</Button>
+            <Button x:Name="PauseButton" Width="80" Margin="4" Click="PauseButton_Click" FontFamily="Arial" FontSize="20">⏸️</Button>
+            <Button x:Name="StopButton" Width="80" Margin="4" Click="StopButton_Click" FontFamily="Arial" FontSize="20">⏹️</Button>
+            <Button x:Name="ShuffleButton" Width="80" Margin="4" Click="ShuffleButton_Click" FontFamily="Arial" FontSize="20">🔀</Button>
             <TextBlock x:Name="DebugBanner"
                        Margin="12,0,0,0"
                        Foreground="Yellow"
@@ -36,11 +40,11 @@
         </StackPanel>
 
         <TextBlock x:Name="StatusText"
-                   Grid.Row="2"
-                   Margin="20,0,20,6"
+                   Grid.Row="1"
+                   Margin="20,353,20,6"
                    Foreground="White"
-                   FontSize="12"/>
+                   FontSize="12" Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
-        
+
     </Grid>
 </Window>
