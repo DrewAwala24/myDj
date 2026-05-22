@@ -1,10 +1,10 @@
-﻿<Application x:Class="MyPersonalDjGui.App"
+<Application x:Class="MyPersonalDjGui.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <!-- ── Color palette ── -->
+        <!-- Color palette -->
         <Color x:Key="DeepColor">#0A0010</Color>
         <Color x:Key="SurfaceColor">#110020</Color>
         <Color x:Key="CardColor">#1A0030</Color>
@@ -13,7 +13,7 @@
         <Color x:Key="AccentColor">#E040FB</Color>
         <Color x:Key="MutedColor">#9080AA</Color>
 
-        <!-- ── Brushes ── -->
+        <!-- Brushes -->
         <SolidColorBrush x:Key="DeepBrush"        Color="{StaticResource DeepColor}"/>
         <SolidColorBrush x:Key="SurfaceBrush"     Color="{StaticResource SurfaceColor}"/>
         <SolidColorBrush x:Key="CardBrush"         Color="{StaticResource CardColor}"/>
@@ -23,7 +23,7 @@
         <SolidColorBrush x:Key="MutedBrush"        Color="{StaticResource MutedColor}"/>
         <SolidColorBrush x:Key="WhiteBrush"        Color="White"/>
 
-        <!-- ── ControlButtonStyle — small icon buttons (Shuffle, Prev, Next, Stop) ── -->
+        <!-- ControlButtonStyle -->
         <Style x:Key="ControlButtonStyle" TargetType="Button">
             <Setter Property="Background"       Value="Transparent"/>
             <Setter Property="Foreground"       Value="{StaticResource MutedBrush}"/>
@@ -56,7 +56,7 @@
             </Setter>
         </Style>
 
-        <!-- ── PlayButtonStyle — big round play/pause button ── -->
+        <!-- PlayButtonStyle -->
         <Style x:Key="PlayButtonStyle" TargetType="Button">
             <Setter Property="Background"      Value="{StaticResource PurpleBrush}"/>
             <Setter Property="Foreground"      Value="White"/>
@@ -88,7 +88,7 @@
             </Setter>
         </Style>
 
-        <!-- ── SongListItemStyle — each row in the playlist ListBox ── -->
+        <!-- SongListItemStyle -->
         <Style x:Key="SongListItemStyle" TargetType="ListBoxItem">
             <Setter Property="Background"  Value="Transparent"/>
             <Setter Property="Foreground"  Value="White"/>
@@ -116,7 +116,7 @@
             </Setter>
         </Style>
 
-        <!-- ── SeekSliderStyle — used for both seek bar and volume slider ── -->
+        <!-- SeekSliderStyle -->
         <Style x:Key="SeekSliderStyle" TargetType="Slider">
             <Setter Property="Template">
                 <Setter.Value>
