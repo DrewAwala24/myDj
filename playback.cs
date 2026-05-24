@@ -21,12 +21,12 @@ namespace MyPersonalDjGui
 
         public void pause()
         {
-            if(outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing)
+            if (outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing)
             {
                 outputDevice.Pause();
                 Console.WriteLine("⏸️ Paused");
             }
-            else if(outputDevice != null && outputDevice.PlaybackState == PlaybackState.Paused)
+            else if (outputDevice != null && outputDevice.PlaybackState == PlaybackState.Paused)
             {
                 outputDevice.Play();
                 Console.WriteLine("▶️ Playing");
@@ -42,6 +42,26 @@ namespace MyPersonalDjGui
         {
             Random random = new Random();
             return random.Next(0, totalSongs);
+        }
+
+        // ─── ADDED TRACK TIMING METHODS FOR THE SEEKBAR ───
+
+        public double GetTotalTimeInSeconds()
+        {
+            return audioFile != null ? audioFile.TotalTime.TotalSeconds : 0;
+        }
+
+        public double GetCurrentTimeInSeconds()
+        {
+            return audioFile != null ? audioFile.CurrentTime.TotalSeconds : 0;
+        }
+
+        public void SetPositionInSeconds(double seconds)
+        {
+            if (audioFile != null)
+            {
+                audioFile.CurrentTime = TimeSpan.FromSeconds(seconds);
+            }
         }
     }
 }
