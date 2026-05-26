@@ -4,51 +4,69 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
-        <!-- Color palette -->
-        <Color x:Key="DeepColor">#0A0010</Color>
-        <Color x:Key="SurfaceColor">#110020</Color>
-        <Color x:Key="CardColor">#1A0030</Color>
-        <Color x:Key="PurpleColor">#9B5DE5</Color>
-        <Color x:Key="PurpleBrightColor">#C77DFF</Color>
-        <Color x:Key="AccentColor">#E040FB</Color>
-        <Color x:Key="MutedColor">#9080AA</Color>
 
-        <!-- Brushes -->
+        <Color x:Key="DeepColor">#0D0D0D</Color>
+        <!-- Near-black background -->
+        <Color x:Key="SurfaceColor">#141414</Color>
+        <!-- Panel surface -->
+        <Color x:Key="CardColor">#1C1C1C</Color>
+        <!-- Card background -->
+        <Color x:Key="RedColor">#E8001A</Color>
+        <!-- P5 crimson red -->
+        <Color x:Key="RedBrightColor">#FF1A30</Color>
+        <!-- Bright red highlight -->
+        <Color x:Key="AccentColor">#FF1A30</Color>
+        <!-- Primary accent (red) -->
+        <Color x:Key="OrangeColor">#F97316</Color>
+        <!-- Futaba hair orange -->
+        <Color x:Key="MutedColor">#707070</Color>
+        <!-- Muted text -->
+        <Color x:Key="WhiteColor">#F5F5F5</Color>
+        <!-- Off-white text -->
+
+        <!-- SolidColorBrush resources -->
         <SolidColorBrush x:Key="DeepBrush"        Color="{StaticResource DeepColor}"/>
         <SolidColorBrush x:Key="SurfaceBrush"     Color="{StaticResource SurfaceColor}"/>
-        <SolidColorBrush x:Key="CardBrush"         Color="{StaticResource CardColor}"/>
-        <SolidColorBrush x:Key="PurpleBrush"       Color="{StaticResource PurpleColor}"/>
-        <SolidColorBrush x:Key="PurpleBrightBrush" Color="{StaticResource PurpleBrightColor}"/>
-        <SolidColorBrush x:Key="AccentBrush"       Color="{StaticResource AccentColor}"/>
-        <SolidColorBrush x:Key="MutedBrush"        Color="{StaticResource MutedColor}"/>
-        <SolidColorBrush x:Key="WhiteBrush"        Color="White"/>
+        <SolidColorBrush x:Key="CardBrush"        Color="{StaticResource CardColor}"/>
+        <SolidColorBrush x:Key="RedBrush"         Color="{StaticResource RedColor}"/>
+        <SolidColorBrush x:Key="RedBrightBrush"   Color="{StaticResource RedBrightColor}"/>
+        <SolidColorBrush x:Key="PurpleBrush"      Color="{StaticResource RedColor}"/>
+        <!-- remapped -->
+        <SolidColorBrush x:Key="PurpleBrightBrush" Color="{StaticResource RedBrightColor}"/>
+        <!-- remapped -->
+        <SolidColorBrush x:Key="AccentBrush"      Color="{StaticResource AccentColor}"/>
+        <SolidColorBrush x:Key="OrangeBrush"      Color="{StaticResource OrangeColor}"/>
+        <SolidColorBrush x:Key="MutedBrush"       Color="{StaticResource MutedColor}"/>
+        <SolidColorBrush x:Key="WhiteBrush"       Color="{StaticResource WhiteColor}"/>
 
-        <!-- ControlButtonStyle -->
+        <!-- ─── Control button style ─── -->
         <Style x:Key="ControlButtonStyle" TargetType="Button">
-            <Setter Property="Background"       Value="Transparent"/>
-            <Setter Property="Foreground"       Value="{StaticResource MutedBrush}"/>
-            <Setter Property="BorderBrush"      Value="Transparent"/>
-            <Setter Property="BorderThickness"  Value="0"/>
-            <Setter Property="FontSize"         Value="16"/>
-            <Setter Property="Padding"          Value="10,6"/>
-            <Setter Property="Cursor"           Value="Hand"/>
+            <Setter Property="Background"   Value="Transparent"/>
+            <Setter Property="Foreground"   Value="{StaticResource MutedBrush}"/>
+            <Setter Property="BorderBrush"  Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize"     Value="14"/>
+            <Setter Property="Padding"      Value="10,6"/>
+            <Setter Property="Cursor"       Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border"
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="20"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#22C77DFF"/>
-                                <Setter Property="Foreground" Value="{StaticResource PurpleBrightBrush}"/>
+                                <Setter TargetName="border" Property="Background" Value="#33E8001A"/>
+                                <Setter Property="Foreground" Value="{StaticResource RedBrightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#449B5DE5"/>
+                                <Setter TargetName="border" Property="Background" Value="#66E8001A"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -56,9 +74,9 @@
             </Setter>
         </Style>
 
-        <!-- PlayButtonStyle -->
+        <!-- ─── Play button (big round, P5 red) ─── -->
         <Style x:Key="PlayButtonStyle" TargetType="Button">
-            <Setter Property="Background"      Value="{StaticResource PurpleBrush}"/>
+            <Setter Property="Background"      Value="{StaticResource RedBrush}"/>
             <Setter Property="Foreground"      Value="White"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Width"           Value="56"/>
@@ -70,17 +88,17 @@
                     <ControlTemplate TargetType="Button">
                         <Border x:Name="border"
                                 Background="{TemplateBinding Background}"
-                                CornerRadius="28">
+                                CornerRadius="4">
                             <ContentPresenter HorizontalAlignment="Center"
                                               VerticalAlignment="Center"/>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background"
-                                        Value="{StaticResource PurpleBrightBrush}"/>
+                                        Value="{StaticResource RedBrightBrush}"/>
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#7744BB"/>
+                                <Setter TargetName="border" Property="Background" Value="#AA000000"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -88,27 +106,43 @@
             </Setter>
         </Style>
 
-        <!-- SongListItemStyle -->
+        <!-- ─── Song list item style ─── -->
         <Style x:Key="SongListItemStyle" TargetType="ListBoxItem">
-            <Setter Property="Background"  Value="Transparent"/>
-            <Setter Property="Foreground"  Value="White"/>
-            <Setter Property="Padding"     Value="10,8"/>
-            <Setter Property="Cursor"      Value="Hand"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding"    Value="10,8"/>
+            <Setter Property="Cursor"     Value="Hand"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Border x:Name="border"
                                 Background="{TemplateBinding Background}"
+                                BorderBrush="Transparent"
+                                BorderThickness="0,0,0,1"
                                 Padding="{TemplateBinding Padding}">
-                            <ContentPresenter/>
+                            <!-- Left red marker bar, visible on hover/select -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border x:Name="marker"
+                                        Grid.Column="0"
+                                        Background="Transparent"
+                                        Margin="0,0,6,0"/>
+                                <ContentPresenter Grid.Column="1"/>
+                            </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#159B5DE5"/>
+                                <Setter TargetName="border"  Property="Background" Value="#1AE8001A"/>
+                                <Setter TargetName="marker"  Property="Background" Value="{StaticResource RedBrush}"/>
+                                <Setter TargetName="border"  Property="BorderBrush" Value="#22E8001A"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="border" Property="Background" Value="#309B5DE5"/>
-                                <Setter Property="Foreground" Value="{StaticResource PurpleBrightBrush}"/>
+                                <Setter TargetName="border" Property="Background"   Value="#33E8001A"/>
+                                <Setter TargetName="marker" Property="Background"   Value="{StaticResource RedBrightBrush}"/>
+                                <Setter Property="Foreground" Value="White"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -116,7 +150,7 @@
             </Setter>
         </Style>
 
-        <!-- SeekSliderStyle -->
+        <!-- ─── Seek/Volume slider ─── -->
         <Style x:Key="SeekSliderStyle" TargetType="Slider">
             <Setter Property="Template">
                 <Setter.Value>
@@ -128,7 +162,7 @@
                                         <RepeatButton.Template>
                                             <ControlTemplate TargetType="RepeatButton">
                                                 <Border Height="3"
-                                                        Background="{StaticResource PurpleBrush}"
+                                                        Background="{StaticResource RedBrush}"
                                                         CornerRadius="2"/>
                                             </ControlTemplate>
                                         </RepeatButton.Template>
@@ -139,7 +173,7 @@
                                         <RepeatButton.Template>
                                             <ControlTemplate TargetType="RepeatButton">
                                                 <Border Height="3"
-                                                        Background="#339B5DE5"
+                                                        Background="#33E8001A"
                                                         CornerRadius="2"/>
                                             </ControlTemplate>
                                         </RepeatButton.Template>
@@ -149,8 +183,10 @@
                                     <Thumb>
                                         <Thumb.Template>
                                             <ControlTemplate TargetType="Thumb">
-                                                <Ellipse Width="14" Height="14"
-                                                         Fill="{StaticResource PurpleBrightBrush}"/>
+                                                <!-- Diamond shape thumb — P5 style -->
+                                                <Path Data="M 7,0 L 14,7 7,14 0,7 Z"
+                                                      Fill="{StaticResource RedBrightBrush}"
+                                                      Width="14" Height="14"/>
                                             </ControlTemplate>
                                         </Thumb.Template>
                                     </Thumb>

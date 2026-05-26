@@ -12,37 +12,35 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using System.Windows.Threading;
 
 namespace MyPersonalDjGui
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         songmenu myMenu = new songmenu();
-        private MyPersonalDj.playback _playback = new MyPersonalDj.playback();
+        private MyPersonalDjGui.playback _playback = new MyPersonalDjGui.playback();
+        private DispatcherTimer uiSyncTimer;
+        private bool isUserDraggingSlider = false;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            // Load songs from the user's Music folder before binding the list
+            uiSyncTimer = new DispatcherTimer();
+            uiSyncTimer.Interval = TimeSpan.FromMilliseconds(500);
+            uiSyncTimer.Tick += UiSyncTimer_Tick;
+            uiSyncTimer.Start();
+
             try
             {
                 var musicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
                 myMenu.LoadSongs(musicPath);
             }
-            catch
-            {
-                // ignore failures to load; UI will simply show an empty list
-            }
+            catch { }
 
             LoadSongs();
 
-            // console log watcher removed - no UI log box
-
-            // update status and show a debug message to confirm loading
             try
             {
                 var count = myMenu.GetSongCount();
@@ -54,7 +52,6 @@ namespace MyPersonalDjGui
                 }
                 else
                 {
-                    // No songs found in Music folder — try the configured ConsoleSongsFolder before launching console
                     var consoleFolder = Config.ConsoleSongsFolder;
                     StatusText.Text = $"No songs found in Music folder — trying configured folder: {consoleFolder}";
                     try
@@ -72,18 +69,19 @@ namespace MyPersonalDjGui
                     }
                     else
                     {
-                        // still no songs — do not launch console mode when running the GUI
                         StatusText.Text = $"No songs found in Music or configured folder ({consoleFolder}).";
                     }
                 }
             }
             catch { }
         }
+
         private void LoadSongs()
         {
             var songs = myMenu.getLibrary();
             SongListBox.ItemsSource = songs;
         }
+
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             if (SongListBox.SelectedIndex >= 0)
@@ -105,7 +103,6 @@ namespace MyPersonalDjGui
                     catch (Exception ex)
                     {
                         StatusText.Text = "Playback error: " + ex.Message;
-                        try { System.IO.File.AppendAllText(System.IO.Path.Combine(System.IO.Path.GetTempPath(), "MyPersonalDj_console.log"), $"Play error: {ex}\n"); } catch { }
                     }
                 }
             }
@@ -120,6 +117,8 @@ namespace MyPersonalDjGui
         {
             _playback.Stop();
             StatusText.Text = "Stopped";
+            SeekBar.Value = 0;
+            TimeElapsed.Text = "0:00";
         }
 
         private void ShuffleButton_Click(object sender, RoutedEventArgs e)
@@ -135,18 +134,19 @@ namespace MyPersonalDjGui
                 SongListBox.SelectedIndex = idx;
             }
         }
+
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
             try { _playback?.Stop(); } catch { }
+            try { uiSyncTimer?.Stop(); } catch { }
         }
 
-        private void SongListBox_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SongListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             PlayButton_Click(sender, new RoutedEventArgs());
         }
 
-        // Console log watcher functionality removed - no UI log box
         private void PrevButton_Click(object sender, RoutedEventArgs e)
         {
             var total = myMenu.GetSongCount();
@@ -176,9 +176,52 @@ namespace MyPersonalDjGui
             ArtistText.Text = System.IO.Path.GetFileName(item.getFilePath());
         }
 
+        // ── TRACK CLOCK AND PROGRESS SYNC ENGINE ──
+
+        private void UiSyncTimer_Tick(object sender, EventArgs e)
+        {
+            if (_playback != null && !isUserDraggingSlider)
+            {
+                try
+                {
+                    double currentSecs = _playback.GetCurrentTimeInSeconds();
+                    double totalSecs = _playback.GetTotalTimeInSeconds();
+
+                    if (totalSecs > 0)
+                    {
+                        SeekBar.Maximum = totalSecs;
+                        SeekBar.Value = currentSecs;
+
+                        TimeElapsed.Text = TimeSpan.FromSeconds(currentSecs).ToString(@"m\:ss");
+                        TimeTotal.Text = TimeSpan.FromSeconds(totalSecs).ToString(@"m\:ss");
+                    }
+                }
+                catch { }
+            }
+        }
+
+        private void SeekBar_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            isUserDraggingSlider = true;
+        }
+
+        private void SeekBar_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_playback != null)
+            {
+                try
+                {
+                    double targetSeconds = SeekBar.Value;
+                    _playback.SetPositionInSeconds(targetSeconds);
+                }
+                catch { }
+            }
+            isUserDraggingSlider = false;
+        }
+
         private void SeekBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            // placeholder — wire up when playback supports seeking
+            // Placeholder required by layout references
         }
 
         private void LoadFolderButton_Click(object sender, RoutedEventArgs e)
@@ -205,5 +248,4 @@ namespace MyPersonalDjGui
             }
         }
     }
-
 }

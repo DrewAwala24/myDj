@@ -5,10 +5,8 @@ namespace MyPersonalDjGui
 {
     class Program
     {
-        // Renamed from Main to avoid duplicate entry point with WPF App.xaml
         public static void RunConsole(string[] args)
         {
-            // Log invocation for debugging whether this method is being reached
             try
             {
                 var log = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "MyPersonalDj_console.log");
@@ -22,7 +20,7 @@ namespace MyPersonalDjGui
             string folderpath = MyPersonalDjGui.Config.ConsoleSongsFolder;
             myMenu.LoadSongs(folderpath);
 
-            // Log discovered songs to the shared console log so GUI can display them
+           
             try
             {
                 var log = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "MyPersonalDj_console.log");

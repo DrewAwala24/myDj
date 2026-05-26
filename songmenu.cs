@@ -9,8 +9,6 @@ namespace MyPersonalDjGui
     internal class songmenu
     {
         private List<playlist> myRecord = new List<playlist>();
-        private Client Supabase;
-
        
         public void LoadSongs(string folderpath)
         {
