@@ -81,7 +81,7 @@ function App() {
 
     return () => {
       window.clearInterval(interval)
-      if (channel) {
+      if (channel && supabase) {
         supabase.removeChannel(channel)
       }
     }
