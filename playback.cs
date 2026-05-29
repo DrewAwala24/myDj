@@ -6,14 +6,24 @@ namespace MyPersonalDjGui
     public class playback
     {
         private IWavePlayer waveOutDevice;
-        private AudioFileReader audioStream; // Resolves the CS0103 error
+        private AudioFileReader audioStream;
+        private string currentFilePath = "";
 
         public void start(string filePath)
         {
-            Stop(); // Always flush old devices before allocation
+            // If the track is already loaded and suspended, hitting play resumes it
+            if (currentFilePath == filePath && waveOutDevice != null && waveOutDevice.PlaybackState == PlaybackState.Paused)
+            {
+                waveOutDevice.Play();
+                return;
+            }
+
+            // Otherwise, flush old devices before a fresh memory allocation
+            Stop();
 
             try
             {
+                currentFilePath = filePath;
                 waveOutDevice = new WaveOutEvent();
                 audioStream = new AudioFileReader(filePath);
                 waveOutDevice.Init(audioStream);
@@ -21,13 +31,24 @@ namespace MyPersonalDjGui
             }
             catch (Exception ex)
             {
+                currentFilePath = "";
                 throw new Exception("Initialization failed: " + ex.Message);
             }
         }
 
         public void pause()
         {
-            waveOutDevice?.Pause();
+            if (waveOutDevice != null)
+            {
+                if (waveOutDevice.PlaybackState == PlaybackState.Playing)
+                {
+                    waveOutDevice.Pause();
+                }
+                else if (waveOutDevice.PlaybackState == PlaybackState.Paused)
+                {
+                    waveOutDevice.Play();
+                }
+            }
         }
 
         public void Stop()
@@ -40,11 +61,13 @@ namespace MyPersonalDjGui
 
                 audioStream?.Dispose();
                 audioStream = null;
+
+                currentFilePath = "";
             }
             catch { }
         }
 
-        // ── TIME & SEEKING ENGINES (Resolves CS1061 Errors) ──
+        // ── TIME & SEEKING ENGINES ──
 
         public double GetCurrentTimeInSeconds()
         {
@@ -60,7 +83,9 @@ namespace MyPersonalDjGui
         {
             if (audioStream != null)
             {
-                audioStream.CurrentTime = TimeSpan.FromSeconds(seconds);
+                // Protect bounds to prevent NAudio from crashing at terminal end file lines
+                double target = Math.Clamp(seconds, 0, GetTotalTimeInSeconds() - 0.1);
+                audioStream.CurrentTime = TimeSpan.FromSeconds(target);
             }
         }
 

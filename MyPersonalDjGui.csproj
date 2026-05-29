@@ -14,6 +14,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="assets\futaba.mp4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="assets\futaba.mp4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="NAudio" Version="2.3.0" />
     <PackageReference Include="supabase-csharp" Version="0.16.2" />
   </ItemGroup>
