@@ -1,67 +1,83 @@
-﻿using NAudio.Wave;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System;
+using NAudio.Wave;
 
 namespace MyPersonalDjGui
 {
-    internal class playback
+    public class playback
     {
-        private WaveOutEvent outputDevice;
-        private AudioFileReader audioFile;
+        private IWavePlayer waveOutDevice;
+        private AudioFileReader audioStream; // Resolves the CS0103 error
 
-        public void start(String filepath)
+        public void start(string filePath)
         {
-            Stop();
-            audioFile = new AudioFileReader(filepath);
-            outputDevice = new WaveOutEvent();
-            outputDevice.Init(audioFile);
-            outputDevice.Play();
+            Stop(); // Always flush old devices before allocation
+
+            try
+            {
+                waveOutDevice = new WaveOutEvent();
+                audioStream = new AudioFileReader(filePath);
+                waveOutDevice.Init(audioStream);
+                waveOutDevice.Play();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Initialization failed: " + ex.Message);
+            }
         }
 
         public void pause()
         {
-            if (outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing)
-            {
-                outputDevice.Pause();
-                Console.WriteLine("⏸️ Paused");
-            }
-            else if (outputDevice != null && outputDevice.PlaybackState == PlaybackState.Paused)
-            {
-                outputDevice.Play();
-                Console.WriteLine("▶️ Playing");
-            }
+            waveOutDevice?.Pause();
         }
+
         public void Stop()
         {
-            outputDevice?.Stop();
-            outputDevice?.Dispose();
-            audioFile?.Dispose();
-        }
-        public int GetShuffleIndex(int totalSongs)
-        {
-            Random random = new Random();
-            return random.Next(0, totalSongs);
+            try
+            {
+                waveOutDevice?.Stop();
+                waveOutDevice?.Dispose();
+                waveOutDevice = null;
+
+                audioStream?.Dispose();
+                audioStream = null;
+            }
+            catch { }
         }
 
-        // ─── ADDED TRACK TIMING METHODS FOR THE SEEKBAR ───
-
-        public double GetTotalTimeInSeconds()
-        {
-            return audioFile != null ? audioFile.TotalTime.TotalSeconds : 0;
-        }
+        // ── TIME & SEEKING ENGINES (Resolves CS1061 Errors) ──
 
         public double GetCurrentTimeInSeconds()
         {
-            return audioFile != null ? audioFile.CurrentTime.TotalSeconds : 0;
+            return audioStream?.CurrentTime.TotalSeconds ?? 0;
+        }
+
+        public double GetTotalTimeInSeconds()
+        {
+            return audioStream?.TotalTime.TotalSeconds ?? 0;
         }
 
         public void SetPositionInSeconds(double seconds)
         {
-            if (audioFile != null)
+            if (audioStream != null)
             {
-                audioFile.CurrentTime = TimeSpan.FromSeconds(seconds);
+                audioStream.CurrentTime = TimeSpan.FromSeconds(seconds);
             }
+        }
+
+        public void SetVolume(float volume)
+        {
+            if (audioStream != null)
+            {
+                // NAudio takes values from 0.0f to 1.0f
+                audioStream.Volume = Math.Clamp(volume, 0.0f, 1.0f);
+            }
+        }
+
+        public int GetShuffleIndex(int totalSongs)
+        {
+            if (totalSongs <= 1) return 0;
+            Random rand = new Random();
+            return rand.Next(0, totalSongs);
         }
     }
 }

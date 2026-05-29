@@ -8,6 +8,82 @@
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanResizeWithGrip">
 
+    <Window.Resources>
+        <Storyboard x:Key="MoveToConsoleStoryboard">
+            <DoubleAnimation Storyboard.TargetName="ViewportTransform" Storyboard.TargetProperty="Y"
+                             To="-140" Duration="0:0:0.65">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation Storyboard.TargetName="MorganaVinylTransform" Storyboard.TargetProperty="Y"
+                             To="-150" Duration="0:0:0.5">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation Storyboard.TargetName="FutabaGlanceTransform" Storyboard.TargetProperty="X"
+                             From="250" To="0" BeginTime="0:0:0.15" Duration="0:0:0.55">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="FutabaGlanceLayer" Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" BeginTime="0:0:0.15" Duration="0:0:0.2"/>
+
+            <DoubleAnimation Storyboard.TargetName="FutabaConsoleTransform" Storyboard.TargetProperty="Y"
+                             From="140" To="0" BeginTime="0:0:0.3" Duration="0:0:0.65">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation Storyboard.TargetName="FutabaGlanceLayer" Storyboard.TargetProperty="Opacity"
+                             To="0" BeginTime="0:0:0.8" Duration="0:0:0.15"/>
+            <DoubleAnimation Storyboard.TargetName="FutabaTypingLayer" Storyboard.TargetProperty="Opacity"
+                             From="0" To="1" BeginTime="0:0:0.8" Duration="0:0:0.2"/>
+        </Storyboard>
+
+        <Storyboard x:Key="MoveToIdleStoryboard">
+            <DoubleAnimation Storyboard.TargetName="ViewportTransform" Storyboard.TargetProperty="Y"
+                             To="0" Duration="0:0:0.65">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="FutabaConsoleTransform" Storyboard.TargetProperty="Y"
+                             To="140" Duration="0:0:0.5">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseIn"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+
+            <DoubleAnimation Storyboard.TargetName="FutabaTypingLayer" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"/>
+            <DoubleAnimation Storyboard.TargetName="FutabaGlanceLayer" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.1"/>
+
+            <DoubleAnimation Storyboard.TargetName="MorganaVinylTransform" Storyboard.TargetProperty="Y"
+                             To="0" Duration="0:0:0.65">
+                <DoubleAnimation.EasingFunction>
+                    <QuinticEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+
+        <Storyboard x:Key="SpinVinylStoryboard">
+            <DoubleAnimation Storyboard.TargetName="VinylRotation" Storyboard.TargetProperty="Angle"
+                             From="0" To="360" Duration="0:0:4" RepeatBehavior="Forever"/>
+        </Storyboard>
+
+        <Storyboard x:Key="ScanlineFlickerStoryboard">
+            <DoubleAnimation Storyboard.TargetName="ScanlineLayer" Storyboard.TargetProperty="Opacity"
+                             From="0.1" To="0.25" Duration="0:0:0.12" AutoReverse="True" RepeatBehavior="Forever"/>
+            <DoubleAnimation Storyboard.TargetName="ScanlineTransform" Storyboard.TargetProperty="Y"
+                             From="-10" To="135" Duration="0:0:3.5" RepeatBehavior="Forever"/>
+        </Storyboard>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="52"/>
@@ -15,44 +91,17 @@
             <RowDefinition Height="42"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0"
-                Background="#0D0D0D"
-                BorderBrush="#E8001A"
-                BorderThickness="0,0,0,2"
-                Padding="20,0">
+        <Border Grid.Row="0" Background="#0D0D0D" BorderBrush="#E8001A" BorderThickness="0,0,0,2" Padding="20,0">
             <Grid>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Path Data="M 8,0 L 16,8 8,16 0,8 Z"
-                          Fill="#E8001A"
-                          Width="16" Height="16"
-                          Margin="0,0,10,0"
-                          VerticalAlignment="Center"/>
-                    <TextBlock Text="MY DJ"
-                               Foreground="White"
-                               FontSize="18"
-                               FontWeight="Black"
-                               VerticalAlignment="Center"/>
-                    <TextBlock Text="  // FUTABA PALACE"
-                               Foreground="#F97316"
-                               FontSize="11"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"
-                               Margin="4,0,0,0"/>
+                    <Path Data="M 8,0 L 16,8 8,16 0,8 Z" Fill="#E8001A" Width="16" Height="16" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <TextBlock Text="MY DJ" Foreground="White" FontSize="18" FontWeight="Black" VerticalAlignment="Center"/>
+                    <TextBlock Text="  // FUTABA PALACE" Foreground="#F97316" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center" Margin="4,0,0,0"/>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center">
-                    <Ellipse x:Name="StatusDot"
-                             Width="8" Height="8"
-                             Fill="#E8001A"
-                             Margin="0,0,6,0"/>
-                    <TextBlock x:Name="HeaderStatus"
-                               Text="Ready"
-                               Foreground="{StaticResource MutedBrush}"
-                               FontSize="11"
-                               FontWeight="SemiBold"
-                               VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Ellipse x:Name="StatusDot" Width="8" Height="8" Fill="#E8001A" Margin="0,0,6,0"/>
+                    <TextBlock x:Name="HeaderStatus" Text="Ready" Foreground="{StaticResource MutedBrush}" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -64,12 +113,7 @@
                 <ColumnDefinition Width="280"/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.Column="0"
-                    Background="{StaticResource CardBrush}"
-                    BorderBrush="#E8001A"
-                    BorderThickness="1"
-                    CornerRadius="0"
-                    Padding="24">
+            <Border Grid.Column="0" Background="{StaticResource CardBrush}" BorderBrush="#E8001A" BorderThickness="1" CornerRadius="0" Padding="24">
                 <Border.Clip>
                     <PathGeometry>
                         <PathFigure StartPoint="18,0" IsClosed="True">
@@ -82,134 +126,126 @@
                 </Border.Clip>
 
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
-                        <Border Background="#E8001A"
-                                Padding="8,3"
-                                CornerRadius="0">
-                            <TextBlock Text="NOW PLAYING"
-                                       Foreground="White"
-                                       FontSize="10"
-                                       FontWeight="Black"/>
+                    <Grid Margin="0,0,0,16">
+                        <Border Background="#E8001A" Padding="8,3" CornerRadius="0" HorizontalAlignment="Left">
+                            <TextBlock Text="NOW PLAYING" Foreground="White" FontSize="10" FontWeight="Black"/>
                         </Border>
-                    </StackPanel>
-
-                    <Canvas Width="110" Height="110"
-                            HorizontalAlignment="Center"
-                            Margin="0,0,0,16">
-                        <Ellipse Canvas.Left="0" Canvas.Top="0"
-                                 Width="110" Height="110">
-                            <Ellipse.Fill>
-                                <RadialGradientBrush>
-                                    <GradientStop Color="#1C1C1C" Offset="0.0"/>
-                                    <GradientStop Color="#2A0000"  Offset="0.6"/>
-                                    <GradientStop Color="#0D0D0D"  Offset="1.0"/>
-                                </RadialGradientBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <Ellipse Canvas.Left="10" Canvas.Top="10"
-                                 Width="90" Height="90"
-                                 Stroke="#33E8001A" StrokeThickness="1" Fill="Transparent"/>
-                        <Ellipse Canvas.Left="20" Canvas.Top="20"
-                                 Width="70" Height="70"
-                                 Stroke="#44E8001A" StrokeThickness="1" Fill="Transparent"/>
-                        <Ellipse Canvas.Left="30" Canvas.Top="30"
-                                 Width="50" Height="50"
-                                 Stroke="#55E8001A" StrokeThickness="1" Fill="Transparent"/>
-                        <Ellipse Canvas.Left="48" Canvas.Top="48"
-                                 Width="14" Height="14"
-                                 Fill="#E8001A"/>
-                        <Ellipse Canvas.Left="22" Canvas.Top="38"
-                                 Width="24" Height="18"
-                                 Fill="#CC000000"
-                                 Stroke="#E8001A" StrokeThickness="2"/>
-                        <Ellipse Canvas.Left="64" Canvas.Top="38"
-                                 Width="24" Height="18"
-                                 Fill="#CC000000"
-                                 Stroke="#E8001A" StrokeThickness="2"/>
-                        <Line X1="46" Y1="47" X2="64" Y2="47"
-                               Stroke="#E8001A" StrokeThickness="2"/>
-                        <Line X1="22" Y1="47" X2="5" Y2="43"
-                               Stroke="#E8001A" StrokeThickness="1.5"/>
-                        <Line X1="88" Y1="47" X2="105" Y2="43"
-                               Stroke="#E8001A" StrokeThickness="1.5"/>
-                        <Ellipse Canvas.Left="25" Canvas.Top="40"
-                                 Width="8" Height="5"
-                                 Fill="#44FF1A30"/>
-                        <Ellipse Canvas.Left="67" Canvas.Top="40"
-                                 Width="8" Height="5"
-                                 Fill="#44FF1A30"/>
-                    </Canvas>
-
-                    <TextBlock x:Name="SongTitleText"
-                               Text="No Song Selected"
-                               Foreground="White"
-                               FontSize="22"
-                               FontWeight="Black"
-                               TextTrimming="CharacterEllipsis"
-                               Margin="0,0,0,4"/>
-
-                    <TextBlock x:Name="ArtistText"
-                               Text="— / —"
-                               Foreground="#F97316"
-                               FontSize="12"
-                               FontWeight="SemiBold"
-                               Margin="0,0,0,20"/>
-
-                    <Slider x:Name="SeekBar"
-                            Style="{StaticResource SeekSliderStyle}"
-                            Minimum="0" Maximum="100" Value="0"
-                            IsMoveToPointEnabled="True"
-                            Margin="0,0,0,6"
-                            ValueChanged="SeekBar_ValueChanged"
-                            PreviewMouseLeftButtonDown="SeekBar_PreviewMouseLeftButtonDown"
-                            PreviewMouseLeftButtonUp="SeekBar_PreviewMouseLeftButtonUp"/>
-
-                    <Grid Margin="0,0,0,20">
-                        <TextBlock x:Name="TimeElapsed"
-                                   Text="0:00"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   FontSize="11"
-                                   HorizontalAlignment="Left"/>
-                        <TextBlock x:Name="TimeTotal"
-                                   Text="0:00"
-                                   Foreground="{StaticResource MutedBrush}"
-                                   FontSize="11"
-                                   HorizontalAlignment="Right"/>
+                        <Button x:Name="ToggleConsoleViewBtn" Content="LOGS" HorizontalAlignment="Right" FontSize="9" Padding="6,1" Background="#1A1A1A" Foreground="#F97316" BorderBrush="#E8001A" Click="ToggleConsoleViewBtn_Click"/>
                     </Grid>
 
-                    <StackPanel Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                Margin="0,0,0,20">
-                        <Button x:Name="ShuffleButton"
-                                Content="⇄"
-                                Style="{StaticResource ControlButtonStyle}"
-                                Click="ShuffleButton_Click"
-                                ToolTip="Shuffle"
-                                Margin="0,0,6,0"/>
-                        <Button x:Name="PrevButton"
-                                Content="⏮"
-                                Style="{StaticResource ControlButtonStyle}"
-                                Click="PrevButton_Click"
-                                ToolTip="Previous"
-                                Margin="0,0,6,0"/>
-                        <Button x:Name="PlayButton"
-                                Content="▶"
-                                Style="{StaticResource PlayButtonStyle}"
-                                Click="PlayButton_Click"
-                                Margin="0,0,6,0"/>
-                        <Button x:Name="NextButton"
-                                Content="⏭"
-                                Style="{StaticResource ControlButtonStyle}"
-                                Click="NextButton_Click"
-                                ToolTip="Next"
-                                Margin="0,0,6,0"/>
-                        <Button x:Name="StopButton"
-                                Content="⏹"
-                                Style="{StaticResource ControlButtonStyle}"
-                                Click="StopButton_Click"
-                                ToolTip="Stop"/>
-                    </StackPanel>
+                    <Grid Width="500" Height="130" HorizontalAlignment="Center" ClipToBounds="True" Margin="0,0,0,16">
+                        <Grid Background="#050505">
+                            <UniformGrid Columns="10" Rows="4" Opacity="0.04">
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                                <Border BorderBrush="#00FF66" BorderThickness="0.5"/>
+                            </UniformGrid>
+                        </Grid>
 
+                        <Canvas x:Name="ThemeViewport" Width="500" Height="270">
+                            <Canvas.RenderTransform>
+                                <TranslateTransform x:Name="ViewportTransform" Y="0"/>
+                            </Canvas.RenderTransform>
+
+                            <Canvas x:Name="LayerA_View" Width="500" Height="130" Canvas.Top="0">
+                                <Canvas.RenderTransform>
+                                    <TranslateTransform x:Name="MorganaVinylTransform" Y="0"/>
+                                </Canvas.RenderTransform>
+
+                                <Canvas Width="110" Height="110" Canvas.Left="195" Canvas.Top="10">
+                                    <Canvas.RenderTransform>
+                                        <RotateTransform x:Name="VinylRotation" CenterX="55" CenterY="55" Angle="0"/>
+                                    </Canvas.RenderTransform>
+
+                                    <Ellipse Canvas.Left="0" Canvas.Top="0" Width="110" Height="110">
+                                        <Ellipse.Fill>
+                                            <RadialGradientBrush>
+                                                <GradientStop Color="#1C1C1C" Offset="0.0"/>
+                                                <GradientStop Color="#2A0000" Offset="0.6"/>
+                                                <GradientStop Color="#0D0D0D" Offset="1.0"/>
+                                            </RadialGradientBrush>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                    <Ellipse Canvas.Left="10" Canvas.Top="10" Width="90" Height="90" Stroke="#33E8001A" StrokeThickness="1" Fill="Transparent"/>
+                                    <Ellipse Canvas.Left="20" Canvas.Top="20" Width="70" Height="70" Stroke="#44E8001A" StrokeThickness="1" Fill="Transparent"/>
+                                    <Ellipse Canvas.Left="30" Canvas.Top="30" Width="50" Height="50" Stroke="#55E8001A" StrokeThickness="1" Fill="Transparent"/>
+                                    <Ellipse Canvas.Left="48" Canvas.Top="48" Width="14" Height="14" Fill="#E8001A"/>
+                                    <Ellipse Canvas.Left="22" Canvas.Top="38" Width="24" Height="18" Fill="#CC000000" Stroke="#E8001A" StrokeThickness="2"/>
+                                    <Ellipse Canvas.Left="64" Canvas.Top="38" Width="24" Height="18" Fill="#CC000000" Stroke="#E8001A" StrokeThickness="2"/>
+                                    <Line X1="46" Y1="47" X2="64" Y2="47" Stroke="#E8001A" StrokeThickness="2"/>
+                                    <Line X1="22" Y1="47" X2="5" Y2="43" Stroke="#E8001A" StrokeThickness="1.5"/>
+                                    <Line X1="88" Y1="47" X2="105" Y2="43" Stroke="#E8001A" StrokeThickness="1.5"/>
+                                    <Ellipse Canvas.Left="25" Canvas.Top="40" Width="8" Height="5" Fill="#44FF1A30"/>
+                                    <Ellipse Canvas.Left="67" Canvas.Top="40" Width="8" Height="5" Fill="#44FF1A30"/>
+                                </Canvas>
+                            </Canvas>
+
+                            <Canvas x:Name="LayerB_View" Width="500" Height="130" Canvas.Top="130">
+                                <Canvas.RenderTransform>
+                                    <TranslateTransform x:Name="FutabaConsoleTransform" Y="140"/>
+                                </Canvas.RenderTransform>
+
+                                <Border Width="460" Height="115" Canvas.Left="20" Canvas.Top="5" Background="#0C0D0C" BorderBrush="#3300FF66" BorderThickness="1">
+                                    <Grid>
+                                        <TextBlock Text="NAVIGATOR_SYSTEM_OUTPUT // ACTIVE_STREAM" Margin="8,4,0,0" Foreground="#5500FF66" FontSize="8" FontWeight="Bold" VerticalAlignment="Top"/>
+                                        <ListBox x:Name="ConsoleLogListBox" Margin="8,18,125,6" Background="Transparent" BorderThickness="0" Focusable="False" SelectionMode="Single" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding}" Foreground="#00FF66" FontFamily="Consolas" FontSize="9" Margin="0,0.5,0,0.5"/>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </Grid>
+                                </Border>
+
+                                <Grid x:Name="FutabaGlanceLayer" Width="110" Height="110" Canvas.Left="350" Canvas.Top="10" Opacity="0">
+                                    <Grid.RenderTransform>
+                                        <TranslateTransform x:Name="FutabaGlanceTransform" X="0" Y="0"/>
+                                    </Grid.RenderTransform>
+                                    <Polygon Points="10,110 100,110 80,10 30,10" Fill="#1200FF66" Stroke="#4400FF66" StrokeThickness="1"/>
+                                    <Ellipse Width="35" Height="35" Stroke="#2200FF66" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,15,0,0"/>
+                                    <Path Data="M 40,25 L 70,25 M 35,38 L 75,38" Stroke="#6600FF66" StrokeThickness="1.5" HorizontalAlignment="Center"/>
+                                </Grid>
+
+                                <Grid x:Name="FutabaTypingLayer" Width="110" Height="110" Canvas.Left="350" Canvas.Top="10" Opacity="0">
+                                    <Polygon Points="5,110 105,110 90,5 20,20" Fill="#2200FF66" Stroke="#AA00FF66" StrokeThickness="1.5"/>
+                                    <Path Data="M 15,40 L 35,12 L 95,20" Stroke="#FF00FF66" StrokeThickness="1" Fill="Transparent"/>
+                                    <TextBlock Text="HACKING..." Foreground="#00FF66" FontSize="8" FontFamily="Consolas" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,15"/>
+                                </Grid>
+                            </Canvas>
+                        </Canvas>
+
+                        <Border x:Name="ScanlineLayer" Height="3" Width="500" Background="#2500FF66" VerticalAlignment="Top" IsHitTestVisible="False" Opacity="0.15">
+                            <Border.RenderTransform>
+                                <TranslateTransform x:Name="ScanlineTransform" Y="0"/>
+                            </Border.RenderTransform>
+                        </Border>
+                    </Grid>
+
+                    <TextBlock x:Name="SongTitleText" Text="No Song Selected" Foreground="White" FontSize="22" FontWeight="Black" TextTrimming="CharacterEllipsis" Margin="0,0,0,4"/>
+                    <TextBlock x:Name="ArtistText" Text="— / —" Foreground="#F97316" FontSize="12" FontWeight="SemiBold" Margin="0,0,0,20"/>
+
+                    <Slider x:Name="SeekBar" Style="{StaticResource SeekSliderStyle}" Minimum="0" Maximum="100" Value="0" IsMoveToPointEnabled="True" Margin="0,0,0,6" ValueChanged="SeekBar_ValueChanged" PreviewMouseLeftButtonDown="SeekBar_PreviewMouseLeftButtonDown" PreviewMouseLeftButtonUp="SeekBar_PreviewMouseLeftButtonUp"/>
+
+                    <Grid Margin="0,0,0,20">
+                        <TextBlock x:Name="TimeElapsed" Text="0:00" Foreground="{StaticResource MutedBrush}" FontSize="11" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="TimeTotal" Text="0:00" Foreground="{StaticResource MutedBrush}" FontSize="11" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                        <Button x:Name="ShuffleButton" Content="⇄" Style="{StaticResource ControlButtonStyle}" Click="ShuffleButton_Click" ToolTip="Shuffle" Margin="0,0,6,0"/>
+                        <Button x:Name="PrevButton" Content="⏮" Style="{StaticResource ControlButtonStyle}" Click="PrevButton_Click" ToolTip="Previous" Margin="0,0,6,0"/>
+                        <Button x:Name="PlayButton" Content="▶" Style="{StaticResource PlayButtonStyle}" Click="PlayButton_Click" Margin="0,0,6,0"/>
+                        <Button x:Name="NextButton" Content="⏭" Style="{StaticResource ControlButtonStyle}" Click="NextButton_Click" ToolTip="Next" Margin="0,0,6,0"/>
+                        <Button x:Name="StopButton" Content="⏹" Style="{StaticResource ControlButtonStyle}" Click="StopButton_Click" ToolTip="Stop"/>
+                    </StackPanel>
                 </StackPanel>
             </Border>
 
@@ -217,86 +253,37 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-
-                <Border Grid.Row="0"
-                        Background="{StaticResource CardBrush}"
-                        BorderBrush="#E8001A"
-                        BorderThickness="1"
-                        CornerRadius="0">
+                <Border Grid.Row="0" Background="{StaticResource CardBrush}" BorderBrush="#E8001A" BorderThickness="1" CornerRadius="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-
-                        <Border Grid.Row="0"
-                                Background="#E8001A"
-                                Padding="14,8">
+                        <Border Grid.Row="0" Background="#E8001A" Padding="14,8">
                             <Grid>
-                                <TextBlock Text="PLAYLIST"
-                                           Foreground="White"
-                                           FontSize="10"
-                                           FontWeight="Black"
-                                           VerticalAlignment="Center"/>
-                                <Border HorizontalAlignment="Right"
-                                        Background="#33000000"
-                                        CornerRadius="0"
-                                        Padding="6,2">
-                                    <TextBlock x:Name="SongCountLabel"
-                                               Text="0 songs"
-                                               Foreground="White"
-                                               FontSize="10"/>
+                                <TextBlock Text="PLAYLIST" Foreground="White" FontSize="10" FontWeight="Black" VerticalAlignment="Center"/>
+                                <Border HorizontalAlignment="Right" Background="#33000000" CornerRadius="0" Padding="6,2">
+                                    <TextBlock x:Name="SongCountLabel" Text="0 songs" Foreground="White" FontSize="10"/>
                                 </Border>
                             </Grid>
                         </Border>
-
-                        <ListBox x:Name="SongListBox"
-                                 Grid.Row="1"
-                                 Background="Transparent"
-                                 BorderThickness="0"
-                                 Foreground="White"
-                                 FontSize="13"
-                                 ItemContainerStyle="{StaticResource SongListItemStyle}"
-                                 MouseDoubleClick="SongListBox_MouseDoubleClick"
-                                 SelectionChanged="SongListBox_SelectionChanged"/>
+                        <ListBox x:Name="SongListBox" Grid.Row="1" Background="Transparent" BorderThickness="0" Foreground="White" FontSize="13" ItemContainerStyle="{StaticResource SongListItemStyle}" MouseDoubleClick="SongListBox_MouseDoubleClick" SelectionChanged="SongListBox_SelectionChanged"/>
                     </Grid>
                 </Border>
             </Grid>
         </Grid>
 
-        <Border Grid.Row="2"
-                Background="#0D0D0D"
-                BorderBrush="#E8001A"
-                BorderThickness="0,2,0,0"
-                Padding="20,0">
+        <Border Grid.Row="2" Background="#0D0D0D" BorderBrush="#E8001A" BorderThickness="0,2,0,0" Padding="20,0">
             <Grid VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Path Data="M 5,0 L 10,5 5,10 0,5 Z"
-                          Fill="#E8001A"
-                          Width="10" Height="10"
-                          Margin="0,0,6,0"
-                          VerticalAlignment="Center"/>
-                    <TextBlock x:Name="StatusText"
-                               Foreground="{StaticResource MutedBrush}"
-                               FontSize="11"
-                               VerticalAlignment="Center">
+                    <Path Data="M 5,0 L 10,5 5,10 0,5 Z" Fill="#E8001A" Width="10" Height="10" Margin="0,0,6,0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="StatusText" Foreground="{StaticResource MutedBrush}" FontSize="11" VerticalAlignment="Center">
                         <Run Text="MyDJ — "/>
-                        <Run x:Name="StatusRun"
-                             Text="Ready"
-                             Foreground="#E8001A"/>
+                        <Run x:Name="StatusRun" Text="Ready" Foreground="#E8001A"/>
                     </TextBlock>
                 </StackPanel>
-                <Button x:Name="LoadFolderButton"
-                        HorizontalAlignment="Right"
-                        Content="📁 Load Folder"
-                        Style="{StaticResource ControlButtonStyle}"
-                        Click="LoadFolderButton_Click"
-                        Foreground="White"
-                        BorderBrush="#E8001A"
-                        BorderThickness="1"
-                        Padding="12,6"/>
+                <Button x:Name="LoadFolderButton" HorizontalAlignment="Right" Content="📁 Load Folder" Style="{StaticResource ControlButtonStyle}" Click="LoadFolderButton_Click" Foreground="White" BorderBrush="#E8001A" BorderThickness="1" Padding="12,6"/>
             </Grid>
         </Border>
-
     </Grid>
 </Window>
